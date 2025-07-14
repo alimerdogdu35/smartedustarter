@@ -19,6 +19,11 @@ const courseSchema = new mongoose.Schema({
     },
     owner: {
         type: String,
+        default: "Dijipin",
+    },
+    image: {
+        type: String,
+        default:null
     },
     isVisible: {
         type: Boolean,

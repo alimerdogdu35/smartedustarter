@@ -1,18 +1,7 @@
 const mongoose = require('mongoose');
-const Counter = require('./counter.model');  // Counter modelini dahil et
 
 const userSchema = new mongoose.Schema({
-    userId: {
-        type: String,
-        unique: true,
-        trim: true,
-    },
     name: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    surname: {
         type: String,
         required: true,
         trim: true,
@@ -28,15 +17,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    status: {
-        type: Number,
-        enum: ['-1', '0', '1', '2'],//-1: banned, 0: inactive, 1: active
-        default: 1,
-    },
     type: {
         type: Number,
-        default: 0, //0: normal, 1: gold, 2: vip 
+        default: 0, //0: student, 1: teacher
     },
+    courses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course"
+    }],
     lastLoginAt: {
         type: Date,
         default: Date.now // kayıt anında otomatik atanır

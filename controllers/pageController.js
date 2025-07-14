@@ -1,8 +1,10 @@
 const Courses = require("../models/courseModel")
 
 exports.index = async (req, res) => {
+    // console.log(req.session.user)
     res.render("index", {
-        page:"home"
+        page:"home",
+        user: req.session.user || null
     })
 }
 
@@ -20,7 +22,8 @@ exports.coursesPage = async (req, res) => {
 
         res.render("courses", {
             courses: courses,
-            page:"courses"
+            page:"courses",
+            user: req.session.user || null
         })
     } catch (error) {
 
@@ -34,7 +37,19 @@ exports.subCoursesPage = async (req, res) => {
         const courses = await Courses.find({parent:id}).lean();
 
         res.render("sub-courses", {
-            courses: courses
+            courses: courses,
+            parent:id
+        })
+    } catch (error) {
+
+    }
+}
+
+exports.contactPage = async (req, res) => {
+    try {
+        
+        res.render("contact", {
+            page:"contact"
         })
     } catch (error) {
 

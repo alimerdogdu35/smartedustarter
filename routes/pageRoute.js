@@ -9,5 +9,6 @@ router.get("/register", pageController.registerGet);
 router.get("/dashboard", pageController.dashboardPage);
 router.get("/courses", pageController.coursesPage);
 router.get("/course/:id", pageController.subCoursesPage);
+router.get("/contact", pageController.contactPage);
 
 module.exports = router;
