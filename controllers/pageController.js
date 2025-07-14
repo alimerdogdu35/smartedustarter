@@ -27,14 +27,26 @@ exports.coursesPage = async (req, res) => {
     }
 }
 
-exports.singleCoursePage = async (req, res) => {
+exports.subCoursesPage = async (req, res) => {
     try {
 
         const id = req.params.id;
         const courses = await Courses.find({parent:id}).lean();
 
-        res.render("courses", {
+        res.render("sub-courses", {
             courses: courses
+        })
+    } catch (error) {
+
+    }
+}
+
+exports.dashboardPage = async (req, res) => {
+    try {
+        //Kullanıcının kayıtlı olduğu kurslar çekilecek
+
+        res.render("dashboard", {
+            page:"dashboard"
         })
     } catch (error) {
 

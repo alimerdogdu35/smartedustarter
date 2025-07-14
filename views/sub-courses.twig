@@ -1,37 +1,44 @@
-
+{% extends "layout.twig" %}
+{% block body %}
 
 <div id="overviews" class="section wb">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-9 blog-post-single">
 				<div class="row">
-					{% for c in courses %}
-						<div class="col-lg-6 col-md-6 col-12">
-							<div class="course-item mb-5">
-								<div class="image-blog">
-									<img src="/images/blog_2.jpg" alt="" class="img-fluid">
-								</div>
-								<div class="course-br">
-									<div class="course-title">
-										<h2>
-											<a href="course/{{ c.slug }}" title="">{{ c.name }}</a>
-										</h2>
+					{% if courses.length > 0 %}
+						{% for c in courses %}
+							<div class="col-lg-6 col-md-6 col-12">
+								<div class="course-item mb-5">
+									<div class="image-blog">
+										<img src="/images/blog_2.jpg" alt="" class="img-fluid">
 									</div>
-									<div class="blog-desc">
-										<p>{{ c.description }}</p>
+									<div class="course-br">
+										<div class="course-title">
+											<h2>
+												<a href="course/{{ c.slug }}" title="">{{ c.name }}</a>
+											</h2>
+										</div>
+										<div class="blog-desc">
+											<p>{{ c.description }}</p>
+										</div>
+										<button class="btn btn-primary" data-id="{{ c._id }}">Kaydol</button>
 									</div>
-								</div>
-								<div class="course-meta-bot">
-									<ul>
-										<li>
-											<i class="fa fa-user" aria-hidden="true"></i>
-											{{ c.owner }}</li>
-									</ul>
+									
+									<div class="course-meta-bot">
+										<ul>
+											<li>
+												<i class="fa fa-user" aria-hidden="true"></i>
+												{{ c.owner }}</li>
+										</ul>
+									</div>
 								</div>
 							</div>
-						</div>
-						<!-- end col -->
-					{% endfor %}
+							<!-- end col -->
+						{% endfor %}
+					{% else %}
+						<p>Kayıtlı Kurs Yok.</p>
+					{% endif %}
 				</div>
 				<!-- end row -->
 
@@ -194,3 +201,5 @@
 <script src="/js/all.js"></script>
 <!-- ALL PLUGINS -->
 <script src="/js/custom.js"></script></body></html>
+
+{% endblock %}
