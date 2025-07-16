@@ -86,7 +86,18 @@ class="host_version">
 					<li class="nav-item">
 						<a class="nav-link" href="contact">Contact</a>
 					</li>
+                        {% if user.type >= 0 %}
+						
+					<li class="nav-item">
+						<a class="nav-link" href="name">{{user.name}}</a>
+					</li>
+					{% endif %}
 				</ul>
+                 {% if user.type == 0 %}
+  <a href="/dashboard">Öğrenci Paneli</a>
+{% elseif user.type == 1 %}
+  <a href="/dashboard-teacher">Öğretmen Paneli</a>
+{% endif %}
 				<ul class="nav navbar-nav navbar-right">
 					{% if user == null %}
 						<li>
@@ -105,7 +116,7 @@ class="host_version">
 						</li>
 					{% else %}
 						<li>
-							<a class="hover-btn-new log orange" href="users/logout">
+							<a class="hover-btn-new log orange" href="/users/logout">
 								<span>
 									<i class="fa-solid fa-right-from-bracket"></i>
 								</span>
@@ -119,12 +130,6 @@ class="host_version">
 </header>
 <!-- End header -->
 
-<div class="all-title-box">
-	<div class="container text-center">
-		<h1>Courses<span class="m_1">Lorem Ipsum dolroin gravida nibh vel velit.</span>
-		</h1>
-	</div>
-</div>
 
 
 {% block body %}{% endblock %}

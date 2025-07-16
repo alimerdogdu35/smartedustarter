@@ -1,89 +1,45 @@
 {% extends "layout.twig" %}
-{% block body %}
-	
-    <div id="overviews" class="section wb">
-        <div class="container">
-            <div class="row"> 
-                <div class="col-lg-12 blog-post-single">					
-					<div class="blog-author">
-						<div class="author-bio">
-							<h3 class="author_name"><a href="#">KURS ÖĞRETMENİ</a></h3>
-							<h5>CEO at <a href="#">SmartEDU</a></h5>
-							<p class="author_det">
-								Lorem ipsum dolor sit amet, consectetur adip, sed do eiusmod tempor incididunt  ut aut reiciendise voluptat maiores alias consequaturs aut perferendis doloribus omnis saperet docendi nec, eos ea alii molestiae aliquand.
-							</p>
-						</div>
-						<div class="author-desc">
-							<img src="images/author.jpg" alt="about author">
-						</div>
-					</div>
-					
-                </div><!-- end col -->
-            </div><!-- end row -->
-			<div class="row mt-5"> 
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="course-item mb-5">
-						<div class="image-blog">
-							<img src="images/blog_1.jpg" alt="" class="img-fluid">
-						</div>
-						<div class="course-br">
-							<div class="course-title">
-								<h2><a href="course-single.html" title="">Engineering</a></h2>
-							</div>
-							<div class="course-desc">
-								<p>Lorem ipsum door sit amet, fugiat deicata avise id cum, no quo maiorum intel ogrets geuiat operts elicata libere avisse id cumlegebat, liber regione eu sit.... </p>
-							</div>
-						</div>
-					</div>
-                </div><!-- end col -->
 
-                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="course-item mb-5">
-						<div class="image-blog">
-							<img src="images/blog_2.jpg" alt="" class="img-fluid">
-						</div>
-						<div class="course-br">
-							<div class="course-title">
-								<h2><a href="course-single.html" title="">Hotel Management</a></h2>
-							</div>
-							<div class="blog-desc">
-								<p>Lorem ipsum door sit amet, fugiat deicata avise id cum, no quo maiorum intel ogrets geuiat operts elicata libere avisse id cumlegebat, liber regione eu sit.... </p>
-							</div>
-						</div>
-					</div>
-                </div><!-- end col -->	
-				                <div class="col-lg-6 col-md-6 col-12">
-                    <div class="course-item mb-5">
-						<div class="image-blog">
-							<img src="images/blog_2.jpg" alt="" class="img-fluid">
-						</div>
-						<div class="course-br">
-							<div class="course-title">
-								<h2><a href="course-single.html" title="">Hotel Management</a></h2>
-							</div>
-							<div class="blog-desc">
-								<p>Lorem ipsum door sit amet, fugiat deicata avise id cum, no quo maiorum intel ogrets geuiat operts elicata libere avisse id cumlegebat, liber regione eu sit.... </p>
-							</div>
-						</div>
-					</div>
-                </div><!-- end col -->	
-				  <div class="col-lg-6 col-md-6 col-12">
-                    <div class="course-item mb-5">
-						<div class="image-blog">
-							<img src="images/blog_2.jpg" alt="" class="img-fluid">
-						</div>
-						<div class="course-br">
-							<div class="course-title">
-								<h2><a href="course-single.html" title="">Hotel Management</a></h2>
-							</div>
-							<div class="blog-desc">
-								<p>Lorem ipsum door sit amet, fugiat deicata avise id cum, no quo maiorum intel ogrets geuiat operts elicata libere avisse id cumlegebat, liber regione eu sit.... </p>
-							</div>
-						</div>
-					</div>
-                </div><!-- end col -->	
-            </div><!-- end row -->
-        </div><!-- end container -->
-    </div><!-- end section -->
+{% block body %}
+
+<div class="all-title-box">
+    <div class="container text-center">
+        <h1 class="display-5">Dashboard</h1>
+        <span class="display-4 text-white">Kayıtlı Olduğun Kurslar</span>
+    </div>
+</div>
+
+<div class="section wb">
+    <div class="container">
+
+        {% if courses.length > 0 %}
+            <div class="row">
+                {% for c in courses %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="{{ c.image ?? '/images/blog_2.jpg' }}" class="card-img-top" alt="{{ c.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ c.name }}</h5>
+                                <p class="card-text">{{ c.description | truncate(100) }}</p>
+                                <a href="/course/{{ c.slug }}" class="btn btn-primary btn-sm">Kursa Git</a>
+                                
+                                <form action="/unenroll" method="POST" class="mt-2">
+                               <input type="hidden" name="courseId" value="{{ c._id }}">
+                               <button type="submit" class="btn btn-danger btn-sm">Kaydı Sil</button>
+                               </form>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center">
+                Henüz hiçbir kursa kayıtlı değilsin.
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
 {% endblock %}
-   

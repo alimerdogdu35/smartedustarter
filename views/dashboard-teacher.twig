@@ -1,0 +1,47 @@
+{% extends "layout.twig" %}
+
+{% block body %}
+
+<div class="all-title-box">
+    <div class="container text-center">
+        <h1 class="display-5">Öğretmen Paneli</h1>
+        <span class="display-4 text-white">Kurslarına Kayıtlı Öğrenciler</span>
+    </div>
+</div>
+
+<div class="section wb">
+    <div class="container">
+
+        {% if enrollments.length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Öğrenci Adı</th>
+                            <th>Email</th>
+                            <th>Kurs</th>
+                            <th>Kayıt Tarihi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for e in enrollments %}
+                            <tr>
+                                <td>{{ e.userId.name }}</td>
+                                <td>{{ e.userId.email }}</td>
+                                <td><a href="/course/{{ e.courseId.slug }}">{{ e.courseId.name }}</a></td>
+                                <td>{{ e.enrolledAt | date("d.m.Y H:i") }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info text-center">
+                Kurslarınıza henüz öğrenci kayıt olmamış.
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

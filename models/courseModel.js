@@ -17,9 +17,10 @@ const courseSchema = new mongoose.Schema({
     description: {
         type: String,
     },
-    owner: {
-        type: String,
-        default: "Dijipin",
+    owner:{
+        type: mongoose.Schema.Types.ObjectId, //string
+        ref:"User",
+        required: true,
     },
     image: {
         type: String,
@@ -40,5 +41,7 @@ courseSchema.pre("save", function (next) {
     next();
 });
 
-const Course = mongoose.model('course', courseSchema);
+
+
+const Course = mongoose.model('Course', courseSchema);
 module.exports = Course;

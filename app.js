@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const session = require("express-session");
+
+
 app.use(express.json());
 app.use(
     express.urlencoded({
@@ -22,10 +24,19 @@ app.use(session({
 const courseRoute = require("./routes/courseRoute");
 const pageRoute = require("./routes/pageRoute");
 const userRoute = require("./routes/userRoute");
+const enrollmentRoute = require('./routes/enrollment.route');
 
+
+app.use('/', enrollmentRoute);
 app.use("/", pageRoute)
 app.use("/courses", courseRoute)
 app.use("/users", userRoute)
+
+
+
+  
+
+
 
 mongoose.connect("mongodb://127.0.0.1/smartedudb")
     .then(() => {

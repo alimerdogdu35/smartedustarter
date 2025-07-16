@@ -2,7 +2,7 @@ const Users = require("../models/userModel")
 exports.registerPost = async (req, res) => {
     try {
         await Users.create(req.body);
-        res.send("ok")
+        res.redirect("/login");
     } catch (error) {
 
     }
@@ -12,15 +12,25 @@ exports.loginPost = async (req, res) => {
     try {
         const email = req.body.email;
         const user = await Users.findOne({ email: email });
-        if (!user) return res.status(400).send("üye ol gel");
+        if (!user) return res.redirect("/register");
 
-        req.session.user = user
-        res.redirect("/")
+        // Kullanıcı bulundu, session set edelim
+        req.session.user = user;
 
+        // Kullanıcı tipine göre yönlendirme
+        if (user.type === 0) {
+            return res.redirect("/dashboard");
+        } else if (user.type === 1) {
+            return res.redirect("/dashboard-teacher");
+        } else {
+            return res.redirect("/");
+        }
     } catch (error) {
         console.log("login hatası: " + error);
+        res.redirect("/login");  // Hata varsa login sayfasına dön
     }
 }
+
 
 exports.logout = async (req, res) => {
     try {

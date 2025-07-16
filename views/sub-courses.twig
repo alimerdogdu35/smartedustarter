@@ -1,19 +1,29 @@
 {% extends "layout.twig" %}
 {% block body %}
-
+      <div class="all-title-box">
+	<div class="container text-center">
+		<h1>Courses<span class="m_1"></span></h1>
+		
+	</div>
+</div>
 	<div id="overviews" class="section wb">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-9 blog-post-single">
 					<div class="row">
+						{% if user.type == 1 %}
 						<button type="button" class="btn btn-primary w-50 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">Alt Kurs Ekle</button>
-						<form action="/courses/create" method="post">
+						{% endif %}
+						<form action="/courses/create" method="post" enctype="multipart/form-data">
 							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h1 class="modal-title fs-5" id="exampleModalLabel">Yeni Alt Kurs</h1>
+										<h1 class="modal-title fs-5" id="exampleModalLabel">Yeni Alt Kurs</h1>
+										
+												
 											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											
 										</div>
 										<div class="modal-body">
 											<form>
@@ -46,7 +56,7 @@
 								<div class="col-lg-6 col-md-6 col-12">
 									<div class="course-item mb-5">
 										<div class="image-blog">
-											<img src="  {{ c.image ?? '/images/blog_2.jpg'}}" alt="" class="img-fluid">
+											<img src=" {{ c.image ?? '/images/blog_2.jpg'}}" alt="" class="img-fluid">
 										</div>
 										<div class="course-br">
 											<div class="course-title">
@@ -57,7 +67,12 @@
 											<div class="blog-desc">
 												<p>{{ c.description }}</p>
 											</div>
-											<button class="btn btn-primary" data-id="{{ c._id }}">Kaydol</button>
+											{% if user.type == 0 %}
+											<form action="/enroll" method="POST">
+                                            <input type="hidden" name="courseId" value="{{ c._id }}">
+                                            <button class="btn btn-primary">Kaydol</button>
+                                            </form>
+											{% endif %}
 										</div>
 
 										<div class="course-meta-bot">

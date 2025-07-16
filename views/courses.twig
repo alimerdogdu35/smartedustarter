@@ -1,5 +1,13 @@
 {% extends "layout.twig" %}
 {% block body %}
+
+          <div class="all-title-box">
+	<div class="container text-center">
+		<h1>Courses<span class="m_1"></span></h1>
+		
+	</div>
+</div>
+
 	<div id="overviews" class="section wb">
 		<div class="container">
 			<div class="row">
@@ -8,7 +16,7 @@
 					{% if user.type == 1 %}
 						<button type="button" class="btn btn-primary w-50 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">Kurs Ekle</button>
 					{% endif %}
-						<form action="/courses/create" method="post">
+						<form action="/courses/create" method="post" enctype="multipart/form-data">
 							<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
