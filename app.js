@@ -10,6 +10,8 @@ app.use(
         extended: true,
     })
 );
+
+ 
 app.set("view engine", "twig");
 app.use(express.static(__dirname + '/public'));
 
@@ -26,11 +28,14 @@ const pageRoute = require("./routes/pageRoute");
 const userRoute = require("./routes/userRoute");
 const enrollmentRoute = require('./routes/enrollment.route');
 
+const adminRoute = require('./routes/adminRoute');
+
 
 app.use('/', enrollmentRoute);
 app.use("/", pageRoute)
 app.use("/courses", courseRoute)
 app.use("/users", userRoute)
+app.use("/admin", adminRoute);
 
 
 

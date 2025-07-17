@@ -1,7 +1,9 @@
+
+
 <!DOCTYPE html>
 <html
 	lang="en">
-
+      
 	<!-- Basic -->
 	<meta charset="utf-8">
 	<meta
@@ -86,7 +88,7 @@ class="host_version">
 					<li class="nav-item">
 						<a class="nav-link" href="contact">Contact</a>
 					</li>
-                        {% if user.type >= 0 %}
+                        {% if user.type == 2 %}
 						
 					<li class="nav-item">
 						<a class="nav-link" href="name">{{user.name}}</a>
@@ -94,10 +96,11 @@ class="host_version">
 					{% endif %}
 				</ul>
                  {% if user.type == 0 %}
-  <a href="/dashboard">Öğrenci Paneli</a>
-{% elseif user.type == 1 %}
-  <a href="/dashboard-teacher">Öğretmen Paneli</a>
-{% endif %}
+ 				 <a href="/dashboard">Öğrenci Paneli</a>
+					{% elseif user.type == 1 %}
+					<a href="/dashboard-teacher">Öğretmen Paneli</a>
+					{% endif %}
+
 				<ul class="nav navbar-nav navbar-right">
 					{% if user == null %}
 						<li>

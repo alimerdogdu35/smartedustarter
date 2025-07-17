@@ -34,6 +34,10 @@ const courseSchema = new mongoose.Schema({
         type: Boolean,
         default: false, // varsayılan olarak silinmemiş
     },
+    clickCount:{
+        type:Number,
+        default:0,
+    },
 })
 
 courseSchema.pre("save", function (next) {

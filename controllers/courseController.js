@@ -12,11 +12,16 @@ exports.createCourse = async (req, res) => {
     if (!req.session.user || req.session.user.type !== 1) {
       return res.status(401).send("Yetkisiz kullanıcı");
     }
-  
-    const form = new formidable.IncomingForm();
+    
+    const form = new formidable.IncomingForm({
+      minFileSize: 0,
+      allowEmptyFiles: true,
+      multiples: false});
   
     form.parse(req, async (err, fields, files) => {
       try {
+
+        
         if (err) throw err;
   
         const name = Array.isArray(fields.name) ? fields.name[0] : fields.name;
@@ -27,8 +32,8 @@ exports.createCourse = async (req, res) => {
        
   
         let imageFile = Array.isArray(files.image) ? files.image[0] : files.image;
-  
-        if (imageFile && imageFile.originalFilename) {
+       
+        if (imageFile && imageFile.size > 0 && imageFile.originalFilename.trim() !== "") {
           const oldPath = imageFile.filepath;
           const fileName = Date.now() + "-" + imageFile.originalFilename;
           const newPath = path.join(__dirname, "../public/uploads", fileName);
@@ -38,8 +43,12 @@ exports.createCourse = async (req, res) => {
   
           imagePath = "/uploads/" + fileName;
         
+        }else {
+          // Görsel yoksa varsayılanı ata
+          imagePath = "/images/blog_1.jpg";
         }
-  
+        const course = await Courses.findOne().sort({ _id: -1 });
+        console.log(course.image);
         await Courses.create({
           name,
           description,
@@ -59,6 +68,8 @@ exports.createCourse = async (req, res) => {
       }
     });
   };
+    
+
   
 
 
