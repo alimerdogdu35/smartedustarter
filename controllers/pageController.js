@@ -1,5 +1,6 @@
 const Courses = require("../models/courseModel")
 const Enrollment = require('../models/enrollment.model');
+const Users = require("../models/userModel")
 
 exports.index = async (req, res) => {
     // console.log(req.session.user)
@@ -105,4 +106,5 @@ exports.contactPage = async (req, res) => {
 
     }
 }
+
 

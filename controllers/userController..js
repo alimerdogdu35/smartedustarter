@@ -23,7 +23,7 @@ exports.loginPost = async (req, res) => {
         } else if (user.type === 1) {
             return res.redirect("/dashboard-teacher");
         } else {
-            return res.redirect("/");
+            return res.redirect("/admin");
         }
     } catch (error) {
         console.log("login hatası: " + error);

@@ -1,0 +1,128 @@
+/* Webpixels CSS */
+/* Utility and component-centric Design System based on Bootstrap for fast, responsive UI development */
+/* URL: https://github.com/webpixels/css */
+
+@import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
+
+/* Bootstrap Icons */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css");
+
+.btn{
+    height:45px;
+    align-items:center!important;
+    justify-content:center!important;
+}
+
+.modal-backdrop{
+    z-index:100!important;
+}
+
+.add-admin{
+    width:30px;
+    height:30px;
+}
+
+.table td a{
+    font-size:15px;
+    text-decoration:none;
+}
+
+.modal {
+    overflow: auto!important;
+  }
+
+  /* .visibility-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+  } */
+
+  .search-container {
+    max-width: 300px;
+    width: 100%;
+    position: relative;
+  }
+
+  .search-icon {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    left: 15px;
+    z-index: 1;
+    width: 18px;
+    height: 18px;
+    color: #777;
+    pointer-events: none;
+  }
+  .search {
+    border-color: #87929D;
+    border-radius: 30px;
+    border-style: solid;
+    border-width: 1px;
+    display: flex;
+    position: relative;
+    transition: border 0.12s ease-in-out;
+  }
+  .search:focus {
+    outline: none;
+    box-shadow: 0 0 10px #719ECE;
+  }
+  input:not([type="checkbox"]) {
+    outline: none;
+  }
+  input {
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: border 0.12s ease-in-out;
+  }
+  input, textarea {
+    color: #000;
+    font-size: 14px;
+  }
+  .search input[type="search"] {
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    color: #666;
+    flex: 1 1 auto;
+    height: 40px;
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 20px;
+  }
+ 
+  .search-full input[type="search"], .search-full .clear-button {
+    border-color: #fff;
+    border-left-color: rgb(255, 255, 255);
+  }
+  .search input[type="search"], .search .clear-button {
+    background-color: #fff;
+    border-radius: 30px;
+    border: none;
+      border-top-color: currentcolor;
+      border-right-color: currentcolor;
+      border-bottom-color: currentcolor;
+      border-left-color: currentcolor;
+  }
+  .search .clear-button {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-left-color: transparent;
+    align-items: center;
+    box-sizing: border-box;
+    color: #777;
+    cursor: pointer;
+    display: none;
+    flex: none;
+    justify-content: center;
+    padding: 0 15px;
+  }

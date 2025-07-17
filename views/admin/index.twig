@@ -1,0 +1,251 @@
+{% extends "./layout.twig" %}
+{% block body %}
+
+{% include "../partials/navbar.twig" %}
+
+
+		<div class="d-flex justify-content-end">
+			<button class="btn d-inline-flex btn-sm btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#createCategory" title="Yeni Kategori Ekle">
+				<i class="fa-solid fa-plus me-1"></i>Kategori Ekle
+			</button>
+		</div>
+		<div class="card shadow border-0 mb-7">
+			<div class="card-header">
+				<h5 class="mb-0">ANA KATEGORİLER</h5>
+			</div>
+			<div class="table-responsive">
+				<table class="table table-hover table-nowrap">
+					<thead class="thead-light">
+						<tr>
+							<th class="text-center">Kategori</th>
+							<th class="">Ayarlar</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for c in categories %}
+							<tr>
+								<td class="text-center">
+									<img alt="" src="" class="   me-2">
+									<a class="text-heading font-semibold" href="{{appUrl}}/dashboard/category/{{ c._id }}">
+
+										{% if c.isVisible == false %}
+											<span class="text-decoration-line-through">{{ c.name }}</span>
+										{% else %}
+											{{ c.name }}
+										{% endif %}
+
+									</a>
+								</td>
+								<td>
+
+									<button class="btn btn-md btn-primary ms-5" onclick="loadCategoryInfo('{{ c._id }}')">Kategori
+																																								                        Ayarları</button>
+
+									<button type="button" class="btn btn-danger ms-5" onclick="updateCategory('{{ c._id }}', 'delete')">X</button>
+
+
+								</td>
+
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			<div class="card-footer border-0 py-5">
+				<span class="text-muted text-sm">{{ categories|length }}
+					Kategori</span>
+			</div>
+		</div>
+	</div>
+</main></div></div><div class="modal fade" id="createCategory" tabindex="-1" role="dialog" aria-labelledby="createCategoryLabel" aria-hidden="true"><div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+	<div class="modal-header">
+		<h5 class="modal-title ml-auto" id="createCategoryLabel">Kategori Ekle</h5>
+		<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="modal-body mt-5">
+
+
+		<div class="form-group mb-2">
+			<div class="row">
+				<div class="col">
+					<label for="newCategoryName" class="col-form-label">Kategori Adı</label>
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" id="newCategoryName" name="newCategoryName" value="" required>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group mb-2">
+			<div class="row">
+				<div class="col">
+					<label for="newCategoryDescription" class="col-form-label">Kategori Açıklaması</label>
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" id="newCategoryDescription" name="newCategoryDescription" value="" required>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group mb-2">
+			<div class="row">
+				<div class="col">
+					<label for="newCategoryVisible" class="col-form-label">Görünürlük</label>
+				</div>
+				<div class="col">
+					<select class="form-control form-select w-100" id="newCategoryVisible" name="newCategoryVisible" aria-label="Bar Type Select">
+						<option value="1">Görünür</option>
+						<option value="0">Görünür değil</option>
+					</select>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+		<input type="submit" method="POST" onclick="createCategory()" class="btn btn-primary" value="Kaydet">
+
+	</div>
+</div></div></div><div class="modal fade text-left" id="categorySettings" tabindex="-1" role="dialog" aria-labelledby="categorySettingsLabel" aria-hidden="true"><div class="modal-dialog modal-lg" role="document">
+<div class="modal-content">
+	<div class="modal-header">
+
+		<h5 class="modal-title ml-auto text-center" id="categorySettingsLabel" name="categorySettingsLabel"></h5>
+		<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="modal-body mt-5">
+		<input type="hidden" id="categoryId">
+		<div class="form-group mb-2">
+			<div class="row">
+				<div class="col">
+					<label for="categoryTitle" class="col-form-label">Kategori Adı</label>
+				</div>
+				<div class="col">
+					<input type="text" class="form-control" id="categoryName" name="categoryName">
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group mb-2">
+			<div class="row">
+				<div class="col">
+					<label for="categoryVisible" class="col-form-label">Görünürlük</label>
+				</div>
+
+				<div class="col">
+					<select class="form-control form-select w-100" id="categoryVisible" name="categoryVisible" aria-label="Bar Type Select"></select>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+		<input type="submit" onclick="updateCategory()" class="btn btn-primary" value="Kaydet">
+	</div>
+</div></div></div><script>const categories = {{ categories|json_encode|raw }};
+const appUrl = "{{ appUrl }}";
+
+async function loadCategoryInfo(categoryId) {
+let category = categories.find(i => i._id == categoryId);
+
+document.getElementById("categoryId").value = category._id;
+document.getElementById("categorySettingsLabel").innerText = `${
+category.name
+} Ayarları`;
+document.getElementById("categoryName").value = category.name;
+
+const categoryVisible = document.getElementById("categoryVisible");
+categoryVisible.innerHTML = category.isVisible === false ? '<option value="1">Görünür</option><option value="0" selected>Görünür değil</option>' : '<option value="1">Görünür</option><option value="0">Görünür değil</option>';
+
+// Bootstrap 5.3 uyumlu modal açma
+const modalElement = document.getElementById("categorySettings");
+const modal = bootstrap.Modal.getOrCreateInstance(modalElement); // 5.3'te önerilen yöntem
+modal.show();
+}
+
+async function createCategory() {
+let newCategoryName = $("#newCategoryName").val();
+let newCategoryDescription = $("#newCategoryDescription").val();
+let newCategoryVisible = $("#newCategoryVisible").val();
+fetch("/dashboard/category/create", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify(
+{newCategoryName, newCategoryDescription, newCategoryVisible}
+)
+}).then((response) => {
+if (response.ok) {
+Swal.fire({title: 'Başarılı!', text: 'Yeni kategori oluşturuldu', icon: 'success', confirmButtonText: 'Tamam'}).then((result) => {
+if (result.isConfirmed) {
+location.reload(); // sadece kullanıcı "Tamam"a basarsa yenile
+}
+});
+} else {
+Swal.fire({title: 'Hata!', text: 'Yeni kategori oluşturulamadı', icon: 'error', confirmButtonText: 'Tamam'});
+}
+});
+}
+
+async function updateCategory(id = null, action = null) {
+if (action == "delete") { /*Swal.fire({ title: 'Kategoriyi silmek istiyor musunuz ?', icon: 'warning', confirmButtonText: 'Tamam' })
+                .then((result) => {
+                    if (result.isConfirmed) {*/
+fetch("/dashboard/category/update", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify(
+{categoryId: id, action}
+)
+})
+/*.then((response) => {
+                            if (response.ok) {
+                                Swal.fire({ title: 'Başarılı!', text: 'Silme başarılı', icon: 'success', confirmButtonText: 'Tamam' }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload(); // sadece kullanıcı "Tamam"a basarsa yenile
+                                    }
+                                });
+                            } else {
+                                Swal.fire({ title: 'Hata!', text: 'Silme başarısız', icon: 'error', confirmButtonText: 'Tamam' });
+                            }
+                        });
+                    }
+                });*/
+return;
+}
+let categoryId = $("#categoryId").val();
+let categoryName = $("#categoryName").val();
+let categoryVisible = $("#categoryVisible").val();
+fetch("/dashboard/category/update", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify(
+{categoryId, categoryName, categoryVisible}
+)
+}).then((response) => {
+if (response.ok) {
+Swal.fire({title: 'Başarılı!', text: 'Güncelleme başarılı', icon: 'success', confirmButtonText: 'Tamam'}).then((result) => {
+if (result.isConfirmed) {
+location.reload(); // sadece kullanıcı "Tamam"a basarsa yenile
+}
+});
+} else {
+Swal.fire({title: 'Hata!', text: 'Güncelleme başarısız', icon: 'error', confirmButtonText: 'Tamam'});
+}
+});
+}</script></body></html>{% endblock %}
