@@ -12,21 +12,21 @@
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="/dashboard/orders">
+				<a class="nav-link" href="/admin/teachers">
 					<i class="bi bi-cart-fill"></i>
 					<span>Öğretmenler</span>
 				</a>
 			</li>
 
 			<li class="nav-item">
-				<a class="nav-link" href="/dashboard/settings">
+				<a class="nav-link" href="/admin/students">
 					<i class="bi bi-cart-fill"></i>
 					<span>Öğrenciler</span>
 				</a>
 			</li>
 
 						<li class="nav-item">
-				<a class="nav-link" href="/dashboard/users">
+				<a class="nav-link" href="/admin/courses">
 					<i class="bi bi-cart-fill"></i>
 					<span>Kurslar</span>
 				</a>
@@ -51,7 +51,7 @@
 				</button>
 			</form>
 		</div>
-
+      <div id="courseResults"></div>
 		<!-- Divider -->
 		<hr
 		class="navbar-divider my-5 opacity-20">
@@ -99,9 +99,9 @@
 							<div class="col">
 								<span class="h6 font-semibold text-muted text-sm d-block mb-2">En çok bakılan kurslar</span>
 								<ul>
-									{% for a in trendArticlesToSend %}
+									{% for p in popularCourses %}
 										<li type="circle">
-											<span class="mb-0">{{ a }}</span>
+											<span class="mb-0">{{ p.name }}-{{ p.clickCount }}</span>
 											<br>
 										</li>
 									{% endfor %}
@@ -189,5 +189,8 @@
 
 					</div>
 				</div>
-			</div> #}
-		</div>
+			</div>
+			</div>
+			 #}
+			 
+		

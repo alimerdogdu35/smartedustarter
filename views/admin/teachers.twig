@@ -7,21 +7,15 @@
 		
 		<div class="card shadow border-0 mb-7">
 			<div class="card-header">
-				<h5 class="mb-0">ANA KATEGORİLER</h5>
+				<h5 class="mb-0">Öğretmenler</h5>
 			</div>
-			{% if enrollmentsByCourse %}
-			{% for courseName, students in enrollmentsByCourse %}
-				<h4>📘 Kurs: {{ courseName }}</h4>
-				<ul>
-				{% for student in students %}
-					<li>{{ student }}</li>
+			 <ul>
+				{% for teacher in owners %}
+				<li>{{ teacher.name }}</li>
+				{% else %}
+				<li>Öğretmen yok</li>
 				{% endfor %}
-				</ul>
-			{% endfor %}
-			{% else %}
-			<p>Henüz kayıtlı öğrenci yok.</p>
-			{% endif %}
-			</div>
+			</ul>
 			<div class="table-responsive">
 				<table class="table table-hover table-nowrap">
 					<thead class="thead-light">

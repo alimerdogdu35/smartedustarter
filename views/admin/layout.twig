@@ -1,6 +1,56 @@
 {% include "../partials/header.twig" %}
 
 
-{% block body %}{% endblock %}
+{% block body %}
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
 
+<script>
+	const allCourses = {{ courses | json_encode | raw }};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const searchInput = document.getElementById("query");
+		const resultsContainer = document.getElementById("courseResults");
+		
+		const subCourses = [];
+
+		allCourses.forEach(course => {
+			subCourses.push(course); // Ana kurs
+			if (course.subCourses && course.subCourses.length > 0) {
+				subCourses.push(...course.subCourses); // Alt kurslar
+			}
+		});
+
+		const fuse = new Fuse(subCourses, {
+			keys: ["title", "description"],
+			threshold: 0.3
+		});
+
+		function renderResults(results) {
+			resultsContainer.innerHTML = ""; // Temizle
+			results.forEach(({ item }) => {
+				const div = document.createElement("div");
+				div.innerHTML = `<strong>${item.name}</strong><p>${item.description || ""}</p>`;
+				resultsContainer.appendChild(div);
+			});
+		}
+
+		searchInput.addEventListener("input", function () {
+			const query = this.value.trim();
+			if (query.length > 0) {
+				const results = fuse.search(query);
+				renderResults(results);
+			} else {
+				resultsContainer.innerHTML = "";
+			}
+		});
+	});
+</script>
+{% endblock %}
+
+
+
+ <div id="courseResults"></div>
 {% include "../partials/header.twig" %}
+
