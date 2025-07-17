@@ -3,6 +3,7 @@ const Enrollment = require('../models/enrollment.model');
 const Users = require("../models/userModel")
 
 exports.index = async (req, res) => {
+
     // console.log(req.session.user)
     res.render("index", {
         page:"home",
@@ -11,6 +12,7 @@ exports.index = async (req, res) => {
 }
 
 exports.loginGet = async (req, res) => {
+
     res.render("login")
 }
 
@@ -67,6 +69,7 @@ exports.teacherDashboard = async (req, res) => {
      
 exports.coursesPage = async (req, res) => {
     try {
+
         const courses = await Courses.find({parent:null}).lean();
 
         res.render("courses", {
@@ -81,7 +84,6 @@ exports.coursesPage = async (req, res) => {
 
 exports.subCoursesPage = async (req, res) => {
     try {
-
         const id = req.params.id;
         const courses = await Courses.find({parent:id}).lean();
 
@@ -107,7 +109,6 @@ exports.contactPage = async (req, res) => {
     }
 }
 
-<<<<<<< HEAD
 exports.test = async (req, res) => {
     try {
         console.log(req.body);
@@ -115,6 +116,3 @@ exports.test = async (req, res) => {
         console.log(error);
     }
 }
-=======
-
->>>>>>> c7efc498411e7ca008d977f036dab4332a822ec6
