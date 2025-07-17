@@ -31,7 +31,7 @@ const enrollmentRoute = require('./routes/enrollment.route');
 const adminRoute = require('./routes/adminRoute');
 
 
-
+app.use('/', enrollmentRoute);
 app.use("/", pageRoute)
 app.use("/courses", courseRoute)
 app.use("/users", userRoute)
