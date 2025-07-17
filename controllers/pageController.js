@@ -106,3 +106,10 @@ exports.contactPage = async (req, res) => {
     }
 }
 
+exports.test = async (req, res) => {
+    try {
+        console.log(req.body);
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -19,6 +19,9 @@
     "twig": "^1.17.1"
   },
   "nodemonConfig": {
-    "ext": "*"
+    "ext": "*",
+    "ignore": [
+      "public/uploads/*"
+    ]
   }
 }
