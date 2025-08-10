@@ -13,9 +13,13 @@
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "formidable": "^3.5.4",
+    "google-auth-library": "^10.1.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.3",
     "nodemailer": "^7.0.5",
     "slugify": "^1.6.6",
+    "socket.io": "^4.8.1",
     "twig": "^1.17.1"
   },
   "nodemonConfig": {
@@ -23,5 +27,13 @@
     "ignore": [
       "public/uploads/*"
     ]
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alimerdogdu35/smartedustarter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alimerdogdu35/smartedustarter/issues"
+  },
+  "homepage": "https://github.com/alimerdogdu35/smartedustarter#readme"
 }

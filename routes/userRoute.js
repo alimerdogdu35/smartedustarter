@@ -10,4 +10,7 @@ router.post("/register", userController.registerPost);
 router.post("/login", userController.loginPost);
 
 
+router.post('/api/register',userController.registerPost);
+router.get("/:id/verify/:token", userController.emailLink);
+
 module.exports = router;

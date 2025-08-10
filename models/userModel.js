@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     lastLoginAt: {
         type: Date,
         default: Date.now // kayıt anında otomatik atanır
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 },
     {

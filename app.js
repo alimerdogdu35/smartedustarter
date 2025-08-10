@@ -2,7 +2,15 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const session = require("express-session");
+const socketIO = require("socket.io");
+const http = require("http");
+const { Server } = require("socket.io");
 
+
+const server = http.createServer(app);
+const io = new Server(server);
+
+module.exports.io = io;
 
 app.use(express.json());
 app.use(
@@ -10,6 +18,7 @@ app.use(
         extended: true,
     })
 );
+
 
  
 app.set("view engine", "twig");
@@ -38,7 +47,13 @@ app.use("/users", userRoute)
 app.use("/admin", adminRoute);
 
 
-
+io.on("connection", (socket) => {
+    socket.on("joinRoom", (roomName) => {
+      socket.join(roomName); // örn: "teachers"
+      console.log(`Socket ${socket.id} joined room ${roomName}`);
+    });
+  });
+  
   
 
 
@@ -46,7 +61,7 @@ app.use("/admin", adminRoute);
 mongoose.connect("mongodb://127.0.0.1/smartedudb")
     .then(() => {
         console.log("DB Connection is set.");
-        app.listen(3000, () => {
+        server.listen(3000, () => {
             console.log("App is running.");
         })
     })

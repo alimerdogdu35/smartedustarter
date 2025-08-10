@@ -45,3 +45,21 @@
 </div>
 
 {% endblock %}
+
+
+<script>
+  const socket = io();
+
+  // Öğretmen odasına katılsın
+
+
+  socket.on("course:enrolled", (data) => {
+    const bell = document.getElementById("notificationBell");
+    bell.classList.add("text-danger"); // kırmızıya boyar
+
+    alert(`${data.studentName}, ${data.courseName} kursuna kaydoldu!`);
+  });
+   
+   
+</script>
+

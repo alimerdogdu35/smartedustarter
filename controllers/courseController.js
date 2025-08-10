@@ -6,6 +6,12 @@ const transporter = require('../services/mail.service');
 const formidable = require("formidable");
 const path = require("path");
 const fs = require("fs");
+const express = require("express");
+const app = express();
+const http = require("http");
+const { Server } = require("socket.io");
+const server = http.createServer(app);
+const io = new Server(server);
 
 
 exports.createCourse = async (req, res) => {
@@ -86,12 +92,21 @@ exports.createCourse = async (req, res) => {
       if (already) {
         return res.redirect('/dashboard');
       }
-  
+      const { io } = require("../app");
       // Kullanıcı ve kurs bilgilerini veritabanından çek
       const user = await Users.findById(userId);
-      const course = await Courses.findById(courseId);
+      const course = await Courses.findById(courseId).populate("owner");
   
       await Enrollment.create({ userId, courseId });
+      
+      const owner = await Users.findById(course.owner); // veya course.owner, course.owner vs.
+
+      if (owner) {
+        io.to("owner:" + owner._id.toString()).emit("course:enrolled", {
+          studentName: user.name,
+          courseName: course.name,
+        });
+      }
   
       const mailOptions = {
         from: 'emir.karakavak@gmail.com', // ✅ .com eksikti
