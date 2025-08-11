@@ -1,0 +1,288 @@
+openapi: 3.0.0
+info:
+  title: Eğitim Platformu API
+  description: Eğitim platformu kullanıcı, kurs, kayıt ve yönetim API'leri.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Lokal geliştirme sunucusu
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        _id:
+          type: string
+          example: "60f6b5a2e7e45d1234567890"
+        name:
+          type: string
+          example: "Alim Can"
+        email:
+          type: string
+          format: email
+          example: "alimcan@example.com"
+        password:
+          type: string
+          example: "123456"
+        type:
+          type: integer
+          enum: [0, 1, 2]
+          example: 0
+          description: Kullanıcı tipi: 0=Öğrenci, 1=Öğretmen, 2=Admin
+        courses:
+          type: array
+          items:
+            type: string
+            example: "60f6b5a2e7e45d1234567891"
+        lastLoginAt:
+          type: string
+          format: date-time
+          example: "2025-08-11T12:00:00Z"
+        isVerified:
+          type: boolean
+          example: true
+
+    Course:
+      type: object
+      required:
+        - name
+        - owner
+      properties:
+        _id:
+          type: string
+          example: "60f6b5a2e7e45d1234567891"
+        name:
+          type: string
+          example: "Matematik 101"
+        parent:
+          type: string
+          nullable: true
+          example: null
+        slug:
+          type: string
+          example: "matematik-101"
+        description:
+          type: string
+          example: "Başlangıç seviyesi matematik kursu"
+        owner:
+          type: string
+          example: "60f6b5a2e7e45d1234567890"
+        image:
+          type: string
+          nullable: true
+          example: "/uploads/image-123.jpg"
+        isVisible:
+          type: boolean
+          example: true
+        isDeleted:
+          type: boolean
+          example: false
+        clickCount:
+          type: integer
+          example: 12
+
+    Enrollment:
+      type: object
+      required:
+        - userId
+        - courseId
+      properties:
+        _id:
+          type: string
+          example: "60f6b5a2e7e45d1234567892"
+        userId:
+          type: string
+          example: "60f6b5a2e7e45d1234567890"
+        courseId:
+          type: string
+          example: "60f6b5a2e7e45d1234567891"
+        enrolledAt:
+          type: string
+          format: date-time
+          example: "2025-08-01T10:00:00Z"
+
+paths:
+
+  /users/register:
+    post:
+      summary: Yeni kullanıcı kaydı yapar
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - email
+                - password
+              properties:
+                name:
+                  type: string
+                  example: "Alim Can"
+                email:
+                  type: string
+                  format: email
+                  example: "alimcan@example.com"
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        '302':
+          description: Kayıt başarılı, e-posta doğrulama için yönlendirme
+        '400':
+          description: Geçersiz istek veya doğrulama hatası
+        '409':
+          description: Bu email ile kayıtlı kullanıcı mevcut
+        '500':
+          description: Sunucu hatası
+
+  /users/login:
+    post:
+      summary: Kullanıcı giriş yapar
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "alimcan@example.com"
+                password:
+                  type: string
+                  example: "123456"
+      responses:
+        '200':
+          description: Başarılı giriş, kullanıcı tipine göre yönlendirme
+        '401':
+          description: Giriş başarısız veya e-posta doğrulanmamış
+        '500':
+          description: Sunucu hatası
+
+  /users/logout:
+    get:
+      summary: Kullanıcı çıkış yapar (session sonlandırma)
+      tags:
+        - User
+      responses:
+        '302':
+          description: Çıkış yapıldı ve ana sayfaya yönlendirildi
+        '500':
+          description: Sunucu hatası
+
+  /courses:
+    get:
+      summary: Tüm ana kursları listeler
+      tags:
+        - Course
+      responses:
+        '200':
+          description: Kurs listesi
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+        '500':
+          description: Sunucu hatası
+
+  /courses/create:
+    post:
+      summary: Yeni kurs oluşturur
+      tags:
+        - Course
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  example: "Fizik 101"
+                description:
+                  type: string
+                  example: "Başlangıç seviyesi fizik kursu"
+                parent:
+                  type: string
+                  nullable: true
+                  example: null
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '302':
+          description: Kurs oluşturulduktan sonra ilgili sayfaya yönlendirilir
+        '401':
+          description: Yetkisiz kullanıcı
+        '500':
+          description: Sunucu hatası
+
+  /enroll:
+    post:
+      summary: Öğrenci kursa kayıt olur
+      tags:
+        - Enrollment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - courseId
+              properties:
+                courseId:
+                  type: string
+                  example: "60f6b5a2e7e45d1234567891"
+      responses:
+        '302':
+          description: Başarılı kayıt sonrası yönlendirme
+        '401':
+          description: Sadece öğrenci kullanıcı kayıt olabilir
+        '500':
+          description: Sunucu hatası
+
+  /unenroll:
+    post:
+      summary: Öğrenci kurs kaydını iptal eder
+      tags:
+        - Enrollment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - courseId
+              properties:
+                courseId:
+                  type: string
+                  example: "60f6b5a2e7e45d1234567891"
+      responses:
+        '302':
+          description: Başarılı iptal sonrası yönlendirme
+        '401':
+          description: Sadece öğrenci kullanıcı kayıt iptali yapabilir
+        '500':
+          description: Sunucu hatası

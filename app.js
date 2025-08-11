@@ -6,11 +6,17 @@ const socketIO = require("socket.io");
 const http = require("http");
 const { Server } = require("socket.io");
 
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
 
 const server = http.createServer(app);
 const io = new Server(server);
 
+
+
 module.exports.io = io;
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(express.json());
 app.use(
