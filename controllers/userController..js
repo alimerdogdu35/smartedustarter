@@ -7,8 +7,12 @@ const fs = require("fs");
 const Joi = require("joi");
 //const {jwt, JWT} = require('google-auth-library');
 const jwt = require("jsonwebtoken");
+const authSecretKey = "keykeykey";
+const {authwho}=require("../middlewares/authMiddleware")
+const token =require("../middlewares/authMiddleware")
 
 const Mail = require("nodemailer/lib/mailer");
+const { nextTick } = require("process");
 
 const secretKey = "mySecretKey123";
 
@@ -67,28 +71,25 @@ exports.registerPost = async (req, res) => {
     }
 }
 
-exports.loginPost = async (req, res) => {
+exports.loginPost = async (req, res,next) => {
     try {
         const email = req.body.email;
         const user = await Users.findOne({ email: email });
         if (!user) return res.redirect("/register");
 
-        // Kullanıcı bulundu, session set edelim
+       
         
         if (!user.isVerified) {
             return res.render("login", {
               message: "Lütfen e-postanızı onaylayın. Size gönderilen maili kontrol edin."
             });
           }
-          req.session.user = user;
-        // Kullanıcı tipine göre yönlendirme
-        if (user.type === 0) {
-            return res.redirect("/dashboard");
-        } else if (user.type === 1) {
-            return res.redirect("/dashboard-teacher");
-        } else {
-            return res.redirect("/admin");
-        }
+          
+          req.user = user;
+         
+          next();
+       
+       
     } catch (error) {
         console.log("login hatası: " + error);
         res.redirect("/login");  // Hata varsa login sayfasına dön

@@ -5,11 +5,11 @@ const Enrollment = require('../models/enrollment.model');
 const Users = require("../models/userModel")
 
 exports.adminPage = async (req, res) => {
-  /* if (!req.session.user && req.session.user?.type != 2) {
+  if (!req.session.user && req.session.user?.type != 2) {
        return res.status(401).send("Sadece Yöneticiler Erişebilir");
      }
      
-     */
+     
   try {
 
     const teachers = await Users.find({ type: 1 }); // öğretmenler

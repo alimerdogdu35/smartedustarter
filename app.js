@@ -5,6 +5,7 @@ const session = require("express-session");
 const socketIO = require("socket.io");
 const http = require("http");
 const { Server } = require("socket.io");
+const cookieParser = require("cookie-parser")
 
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
@@ -17,7 +18,7 @@ const io = new Server(server);
 
 module.exports.io = io;
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+app.use(cookieParser());
 app.use(express.json());
 app.use(
     express.urlencoded({

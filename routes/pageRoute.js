@@ -4,6 +4,8 @@ const {courseCounter} = require("../middlewares/courseMiddleware");
 
 const courseController = require("../controllers/courseController");
 const pageController = require("../controllers/pageController");
+const { loginPost } = require("../controllers/userController.");
+const { authwho, redirectByType } = require("../middlewares/authMiddleware");
 
 
 /**
@@ -149,6 +151,10 @@ router.get('/dashboard-teacher/:courseId', pageController.teacherDashboard); // 
 
 router.get("/courses", pageController.coursesPage);
 router.get("/contact", pageController.contactPage);
+router.get("/authwho",authwho);
 
 
+router.post("/login", loginPost, authwho);
+
+router.get("/redirect-by-type",redirectByType);
 module.exports = router;
